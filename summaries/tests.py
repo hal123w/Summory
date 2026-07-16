@@ -17,6 +17,12 @@ class SummoryTests(TestCase):
         res = self.client.get(reverse('summaries:list'))
         self.assertEqual(res.status_code, 302)
 
+    def test_home_is_create_when_logged_in(self):
+        self.client.login(username='alice', password='pass12345')
+        res = self.client.get(reverse('summaries:create'))
+        self.assertEqual(res.status_code, 200)
+        self.assertContains(res, '原文を貼って')
+
     def test_cannot_see_others_summary(self):
         Summary.objects.create(
             user=self.other,

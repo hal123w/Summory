@@ -3,31 +3,41 @@
 {% block title %}新規要約 — Summory{% endblock %}
 
 {% block content %}
-<section class="panel">
-  <h1>新規要約</h1>
-  <p class="meta">原文を貼ると Gemini が要約し、履歴に残します。</p>
-  <form method="post">
+<section class="panel panel-hero">
+  <div class="hero-copy">
+    <p class="eyebrow">New summary</p>
+    <h1>原文を貼って、残す</h1>
+    <p class="lede">Gemini が要約し、カテゴリ付きで履歴に残します。</p>
+  </div>
+  <form method="post" class="create-form">
     {% csrf_token %}
-    <label for="id_title">{{ form.title.label }}</label>
-    {{ form.title }}
-    {{ form.title.errors }}
+    <div class="field-row">
+      <div class="field">
+        <label for="id_title">{{ form.title.label }}</label>
+        {{ form.title }}
+        {{ form.title.errors }}
+      </div>
+      <div class="field">
+        <label for="id_category">{{ form.category.label }}</label>
+        {{ form.category }}
+        {{ form.category.errors }}
+        <datalist id="category-suggestions">
+          {% for name in category_suggestions %}
+          <option value="{{ name }}">
+          {% endfor %}
+        </datalist>
+      </div>
+    </div>
 
-    <label for="id_category">{{ form.category.label }}</label>
-    {{ form.category }}
-    {{ form.category.errors }}
-    <datalist id="category-suggestions">
-      {% for name in category_suggestions %}
-      <option value="{{ name }}">
-      {% endfor %}
-    </datalist>
-
-    <label for="id_original_text">{{ form.original_text.label }}</label>
-    {{ form.original_text }}
-    {{ form.original_text.errors }}
+    <div class="field">
+      <label for="id_original_text">{{ form.original_text.label }}</label>
+      {{ form.original_text }}
+      {{ form.original_text.errors }}
+    </div>
 
     <div class="actions">
       <button type="submit" class="btn">要約して保存</button>
-      <a class="btn btn-ghost" href="{% url 'summaries:list' %}">キャンセル</a>
+      <a class="btn btn-ghost" href="{% url 'summaries:list' %}">履歴を見る</a>
     </div>
   </form>
 </section>
