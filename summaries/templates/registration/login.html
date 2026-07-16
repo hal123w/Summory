@@ -1,0 +1,20 @@
+{% extends "summaries/base.html" %}
+
+{% block title %}ログイン — Summory{% endblock %}
+
+{% block content %}
+<div class="auth-card">
+  <h1>Summory</h1>
+  <p>ログインして要約履歴を開きます</p>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <label for="id_username">ユーザー名</label>
+    {{ form.username }}
+    <label for="id_password">パスワード</label>
+    {{ form.password }}
+    <button type="submit" class="btn">ログイン</button>
+  </form>
+  <p class="auth-foot"><a href="{% url 'summaries:signup' %}">新規登録はこちら</a></p>
+</div>
+{% endblock %}

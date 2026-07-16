@@ -1,0 +1,34 @@
+{% extends "summaries/base.html" %}
+
+{% block title %}新規要約 — Summory{% endblock %}
+
+{% block content %}
+<section class="panel">
+  <h1>新規要約</h1>
+  <p class="meta">原文を貼ると Gemini が要約し、履歴に残します。</p>
+  <form method="post">
+    {% csrf_token %}
+    <label for="id_title">{{ form.title.label }}</label>
+    {{ form.title }}
+    {{ form.title.errors }}
+
+    <label for="id_category">{{ form.category.label }}</label>
+    {{ form.category }}
+    {{ form.category.errors }}
+    <datalist id="category-suggestions">
+      {% for name in category_suggestions %}
+      <option value="{{ name }}">
+      {% endfor %}
+    </datalist>
+
+    <label for="id_original_text">{{ form.original_text.label }}</label>
+    {{ form.original_text }}
+    {{ form.original_text.errors }}
+
+    <div class="actions">
+      <button type="submit" class="btn">要約して保存</button>
+      <a class="btn btn-ghost" href="{% url 'summaries:list' %}">キャンセル</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

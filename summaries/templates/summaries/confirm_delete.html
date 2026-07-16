@@ -1,0 +1,15 @@
+{% extends "summaries/base.html" %}
+
+{% block title %}削除 — Summory{% endblock %}
+
+{% block content %}
+<section class="panel">
+  <h1>この要約を削除しますか？</h1>
+  <p class="meta">「{{ summary.display_title }}」</p>
+  <form method="post" class="actions">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">削除する</button>
+    <a class="btn btn-ghost" href="{% url 'summaries:detail' summary.pk %}">キャンセル</a>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "summaries/base.html" %}
+
+{% block title %}{{ summary.display_title }} — Summory{% endblock %}
+
+{% block content %}
+<section class="panel">
+  <h1>{{ summary.display_title }}</h1>
+  <div class="meta">
+    {{ summary.created_at|date:"Y年n月j日 H:i" }}
+    {% if summary.category %}<span class="badge">{{ summary.category }}</span>{% endif %}
+  </div>
+
+  <div class="summary-body">{{ summary.summary_text }}</div>
+
+  <details class="original">
+    <summary>原文を表示</summary>
+    <pre>{{ summary.original_text }}</pre>
+  </details>
+
+  <div class="actions">
+    <a class="btn btn-ghost" href="{% url 'summaries:edit' summary.pk %}">編集</a>
+    <a class="btn btn-danger" href="{% url 'summaries:delete' summary.pk %}">削除</a>
+    <a class="btn btn-ghost" href="{% url 'summaries:list' %}">一覧へ</a>
+  </div>
+</section>
+{% endblock %}

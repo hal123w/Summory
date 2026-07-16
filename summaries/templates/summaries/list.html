@@ -1,0 +1,41 @@
+{% extends "summaries/base.html" %}
+
+{% block title %}履歴 — Summory{% endblock %}
+
+{% block content %}
+<div class="layout">
+  <aside class="side">
+    <h2>カテゴリ</h2>
+    <a href="{% url 'summaries:list' %}" class="{% if not filter_category %}is-active{% endif %}">すべて</a>
+    {% for item in categories %}
+    <a href="{% url 'summaries:list' %}?category={{ item.category|urlencode }}"
+       class="{% if filter_category == item.category %}is-active{% endif %}">
+      {{ item.category }} <span class="count">({{ item.count }})</span>
+    </a>
+    {% empty %}
+    <p class="empty" style="font-size:0.85rem;">まだカテゴリはありません</p>
+    {% endfor %}
+  </aside>
+
+  <section class="panel">
+    <h1>{% if filter_category %}{{ filter_category }}{% else %}すべての要約{% endif %}</h1>
+
+    {% if summaries %}
+    <ul class="list">
+      {% for s in summaries %}
+      <li>
+        <div class="meta">
+          {{ s.created_at|date:"Y/m/d H:i" }}
+          {% if s.category %}<span class="badge">{{ s.category }}</span>{% endif %}
+        </div>
+        <a class="title" href="{% url 'summaries:detail' s.pk %}">{{ s.display_title }}</a>
+        <p class="preview">{{ s.summary_text|truncatechars:120 }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="empty">まだ要約がありません。<a href="{% url 'summaries:create' %}">新規要約</a>から作成できます。</p>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}
